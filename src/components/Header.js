@@ -33,6 +33,34 @@ const socials = [
 ];
 
 const Header = () => {
+  // Bonus Section: Scrolling feature
+
+  const headerRef = useRef(null); 
+  useEffect(() => { 
+    let prevY = window.scrollY; 
+  
+    const handleScroll = () => { 
+      const currY = window.scrollY; 
+      const headerElement = headerRef.current; 
+
+      if (!headerElement) { 
+        return; 
+      } 
+
+      if (prevY > currY) { 
+        headerElement.style.transform = "translateY(0)"; 
+      } else { 
+        headerElement.style.transform = "translateY(-200px)"; 
+      } 
+      prevY = currY; 
+    } 
+    window.addEventListener('scroll', handleScroll) 
+  
+    return () => { 
+      window.removeEventListener('scroll', handleScroll) 
+    } 
+  }, []); 
+  
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -55,6 +83,7 @@ const Header = () => {
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
       backgroundColor="#18181b"
+      ref={headerRef}
     >
       <Box color="white" maxWidth="1280px" margin="0 auto">
         <HStack
